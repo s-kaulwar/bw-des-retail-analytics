@@ -1,9 +1,9 @@
 import boto3
-from vaultutils import VaultClient
+from valututils import VaultClient
 
 VAULT_URL = "http://127.0.0.1:8200"
-ROLE_ID = "40eab551-1752-d210-876c-200497d3abbb"
-SECRET_ID = "d5d175e6-d60b-a887-3cc1-f13358deb2de"
+ROLE_ID = "16656c91-7660-0a3d-e963-e54adfd70943"
+SECRET_ID = "20810a73-18c4-a011-ae96-a5235e9dacfa"
 SECRET_PATH = "secret/data/aws"
 
 vault_client = VaultClient(VAULT_URL, ROLE_ID, SECRET_ID, SECRET_PATH)
@@ -19,8 +19,8 @@ else:
     print("Failed to authenticate with AppRole.")
 
 
-aws_access_key = secret_data['data']['bw-aws-accesskey-dev']
-aws_secret_key = secret_data['data']['bw-aws-secretkey-dev']
+aws_access_key = secret_data['data']['accesskey']
+aws_secret_key = secret_data['data']['secretkey']
 
 region = 'us-east-1'  # Replace with your preferred AWS region
 
@@ -53,14 +53,14 @@ class AWSConnector:
         return aws_client_conn
 
 # Create an instance of the AWSConnector class
-# client='s3'
-# aws_connector = AWSConnector(aws_access_key, aws_secret_key, client, region)
+client='s3'
+aws_connector = AWSConnector(aws_access_key, aws_secret_key, client, region)
 
-# # Access the S3 client through the instance
-# s3_client = aws_connector.aws_client_conn
+# Access the S3 client through the instance
+s3_client = aws_connector.aws_client_conn
 
-# # Now you can use s3_client to perform S3 operations
-# response = s3_client.list_buckets()
-# print("S3 Buckets:")
-# for bucket in response['Buckets']:
-#     print(f"  {bucket['Name']}")
+# Now you can use s3_client to perform S3 operations
+response = s3_client.list_buckets()
+print("S3 Buckets:")
+for bucket in response['Buckets']:
+    print(f"  {bucket['Name']}")
